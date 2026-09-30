@@ -1,0 +1,12 @@
+{
+  "project_name": "Thalassofobia",
+  "version": "0.1.0",
+  "audio": {
+    "master_volume": 0.8,
+    "subtitles": true
+  },
+  "controls": {
+    "move_forward": "W",
+    "interact": "E"
+  }
+}

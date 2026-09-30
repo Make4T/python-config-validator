@@ -1,0 +1,12 @@
+{
+  "project_name": "",
+  "version": "0.1.0",
+  "audio": {
+    "master_volume": 1.4,
+    "subtitles": "yes"
+  },
+  "controls": {
+    "move_forward": "W"
+  },
+  "debug_mode": true
+}

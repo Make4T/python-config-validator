@@ -1,0 +1,27 @@
+{
+  "type": "object",
+  "required": ["project_name", "version", "audio", "controls"],
+  "additionalProperties": false,
+  "properties": {
+    "project_name": { "type": "string", "minLength": 2 },
+    "version": { "type": "string", "minLength": 1 },
+    "audio": {
+      "type": "object",
+      "required": ["master_volume", "subtitles"],
+      "additionalProperties": false,
+      "properties": {
+        "master_volume": { "type": "number", "minimum": 0, "maximum": 1 },
+        "subtitles": { "type": "boolean" }
+      }
+    },
+    "controls": {
+      "type": "object",
+      "required": ["move_forward", "interact"],
+      "additionalProperties": false,
+      "properties": {
+        "move_forward": { "type": "string", "minLength": 1 },
+        "interact": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}
