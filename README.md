@@ -30,10 +30,35 @@ python -m config_validator configs/game.invalid.json --schema schema/config.sche
 
 The valid file exits with code `0`. The invalid file exits with code `1` and lists every detected problem.
 
+### Safe defaults
+
+The schema can provide safe defaults for missing properties. `--fix` writes only
+those missing defaults and never overwrites existing values or removes unknown
+properties:
+
+```powershell
+python -m config_validator configs/game.missing.json --schema schema/config.schema.json --fix
+```
+
+The command validates the result again after writing it. Invalid values that are
+already present still require a manual correction.
+
 For scripts and CI, use JSON output:
 
 ```powershell
 python -m config_validator configs/game.invalid.json --schema schema/config.schema.json --json
+```
+
+JSON diagnostics include a stable `code`, `path`, `message` and, when useful, a
+`suggestion` field. These are suitable for editor integrations or CI reports.
+
+### YAML (optional)
+
+Install the optional dependency only when YAML is needed:
+
+```powershell
+python -m pip install -e ".[yaml]"
+python -m config_validator configs/game.yaml --schema schema/config.schema.json
 ```
 
 After installation, the same command is available as:
@@ -58,11 +83,18 @@ schema/config.schema.json           configuration rules
 configs/                            valid and invalid examples
 tests/                              automated tests
 .github/workflows/ci.yml            lint + test on every push/PR
+.github/workflows/publish.yml       builds/publishes tagged releases to PyPI
 ```
 
-## Next improvements
+## Release to PyPI
 
-- Add a `--fix` mode for safe defaults.
-- Support schema error codes and suggestions.
-- Add YAML input through an optional dependency.
-- Package and publish the CLI to PyPI after the API stabilizes.
+The package build is available locally with:
+
+```powershell
+python -m pip install -e ".[dev]"
+python -m build
+```
+
+The publish workflow runs when a GitHub Release is published. Before the first
+release, configure a PyPI Trusted Publisher for this repository and workflow.
+Do not put a PyPI token in the repository.

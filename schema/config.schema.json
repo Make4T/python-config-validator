@@ -3,24 +3,26 @@
   "required": ["project_name", "version", "audio", "controls"],
   "additionalProperties": false,
   "properties": {
-    "project_name": { "type": "string", "minLength": 2 },
-    "version": { "type": "string", "minLength": 1 },
+    "project_name": { "type": "string", "minLength": 2, "default": "New Project" },
+    "version": { "type": "string", "minLength": 1, "default": "0.1.0" },
     "audio": {
       "type": "object",
       "required": ["master_volume", "subtitles"],
       "additionalProperties": false,
+      "default": { "master_volume": 0.8, "subtitles": true },
       "properties": {
-        "master_volume": { "type": "number", "minimum": 0, "maximum": 1 },
-        "subtitles": { "type": "boolean" }
+        "master_volume": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.8 },
+        "subtitles": { "type": "boolean", "default": true }
       }
     },
     "controls": {
       "type": "object",
       "required": ["move_forward", "interact"],
       "additionalProperties": false,
+      "default": { "move_forward": "W", "interact": "E" },
       "properties": {
-        "move_forward": { "type": "string", "minLength": 1 },
-        "interact": { "type": "string", "minLength": 1 }
+        "move_forward": { "type": "string", "minLength": 1, "default": "W" },
+        "interact": { "type": "string", "minLength": 1, "default": "E" }
       }
     }
   }

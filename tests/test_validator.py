@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from config_validator.validator import validate_config
+from config_validator.validator import apply_defaults, validate_config
 
 ROOT = Path(__file__).parents[1]
 SCHEMA = json.loads((ROOT / "schema/config.schema.json").read_text(encoding="utf-8"))
@@ -42,3 +42,21 @@ def test_boolean_is_not_accepted_as_number() -> None:
     }
     errors = validate_config(config, SCHEMA)
     assert any(error.path == "$.audio.master_volume" for error in errors)
+
+
+def test_apply_defaults_only_fills_missing_values() -> None:
+    config = {"project_name": "Existing", "audio": {"master_volume": 0.2}}
+    fixed, changes = apply_defaults(config, SCHEMA)
+    assert fixed["project_name"] == "Existing"
+    assert fixed["audio"]["master_volume"] == 0.2
+    assert fixed["audio"]["subtitles"] is True
+    assert fixed["controls"] == {"move_forward": "W", "interact": "E"}
+    assert "$.project_name" not in changes
+    assert "$.audio.subtitles" in changes
+
+
+def test_errors_have_stable_codes_and_suggestions() -> None:
+    errors = validate_config({}, SCHEMA)
+    required = next(error for error in errors if error.path == "$.project_name")
+    assert required.code == "required"
+    assert "--fix" in required.suggestion
