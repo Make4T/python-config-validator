@@ -2,8 +2,6 @@
 
 A small, testable Python CLI for validating JSON configuration files against a focused JSON-schema-inspired format.
 
-This is the first project in a portfolio roadmap from Python fundamentals toward SQL, TypeScript and full-stack engineering.
-
 ## What it does
 
 - Validates required fields and nested object structure.
